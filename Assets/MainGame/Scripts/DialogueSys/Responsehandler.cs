@@ -43,8 +43,8 @@ public class Responsehandler : MonoBehaviour
 
             tempResponseButoons.Add(responseButton);
 
-            responseBoxheight += responseButtontmp.sizeDelta.y;
-            //Debug.Log(responseButtontmp.sizeDelta.y);
+            responseBoxheight += responseButtontmp.sizeDelta.y + 4;
+            // Debug.Log(responseButtontmp.sizeDelta.y);
         }
         responseBox.sizeDelta = new Vector2(responseBox.sizeDelta.x, responseBoxheight);
         responseBox.gameObject.SetActive(true);

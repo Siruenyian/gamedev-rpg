@@ -12,5 +12,8 @@ public class Response
 
 
     public DialogueData Dialoguedata => dialogueData;
-
+    public void SetDialogue(DialogueData dialogue)
+    {
+        dialogueData = dialogue;
+    }
 }

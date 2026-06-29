@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a83250ee7ede664193026b9c0eddb65, type: 3}
+  m_Name: Puppet_1
+  m_EditorClassIdentifier: 
+  characterName: TestMe
+  animatorController: {fileID: 9100000, guid: d5953833e9514954d9b407986f22ab11, type: 2}
+  sprite: {fileID: -1926900620, guid: 62ab17917359db64fa646b694c3f48ca, type: 3}
+  maxHP: 10
+  maxMana: 1
+  attack: 3
+  magic: 1
+  defense: 5
+  speed: 1

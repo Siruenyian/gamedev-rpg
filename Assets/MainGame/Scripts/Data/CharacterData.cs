@@ -4,7 +4,7 @@ using UnityEngine;
 public class CharacterData : ScriptableObject
 {
     public string characterName;
-    public Animator animator;
+    public RuntimeAnimatorController animatorController;
     public Sprite sprite;
     public int maxHP;
     public int maxMana;

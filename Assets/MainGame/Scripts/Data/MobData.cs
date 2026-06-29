@@ -6,7 +6,4 @@ using UnityEngine;
 public class MobData : ScriptableObject
 {
     public DialogueData npcDialogue;
-    public Sprite artworkleft;
-    public Sprite artworkright;
-    public Sprite bgart;
 }

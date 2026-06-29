@@ -18,6 +18,7 @@ public class DialogueData : ScriptableObject
     //getter utk responses
     /*Public array of responses yang ngepoint ke responses yg di serialized*/
     public Response[] Responses => responses;
+
     //continue if no response
     [Header("Continued to")]
     [SerializeField] public DialogueData dialogueData;

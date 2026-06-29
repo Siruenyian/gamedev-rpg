@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     // Game state variables
     public bool isGamePaused { get; private set; }
-
+    public bool HasKey { get; set; }
     private void Awake()
     {
         // Ensure that only one instance of GameManager exists

@@ -36,8 +36,6 @@ public class DialogueUI : MonoBehaviour
         panelBG.SetActive(false);
     }
 
-
-
     public void showDialogue(DialogueData dialogueobj, Sprite sprite, Sprite sprite1)
     {
         for (int i = 0; i < toggleButtons.Length; i++)
@@ -51,26 +49,28 @@ public class DialogueUI : MonoBehaviour
         {
             npcArtboxleft.SetActive(true);
             npcArtboxright.SetActive(true);
-
-
         }
         else if (dialogueobj.isLeft)
         {
             npcArtboxright.SetActive(false);
 
             npcArtboxleft.SetActive(true);
-
+            if (sprite != null)
+            {
+                npcArtboxleft.GetComponent<Image>().sprite = sprite;
+            }
         }
         else if (dialogueobj.isRight)
         {
             npcArtboxleft.SetActive(false);
 
             npcArtboxright.SetActive(true);
-
+            if (sprite1 != null)
+            {
+                npcArtboxright.GetComponent<Image>().sprite = sprite1;
+            }
         }
 
-        npcArtboxleft.GetComponent<Image>().sprite = sprite;
-        npcArtboxright.GetComponent<Image>().sprite = sprite1;
 
         //Debug.Log(dialogueobj.name + "wtf is sthsi");
         StartCoroutine(StepTroughDialogue(dialogueobj));
