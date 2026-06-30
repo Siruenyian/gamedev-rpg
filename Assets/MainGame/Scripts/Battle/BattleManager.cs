@@ -14,7 +14,6 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private BattleData defaultBattleData;
     [SerializeField] private BattleUI battleUI;
     [SerializeField] private BattleLog battleLogger;
-
     private void Start()
     {
         if (BattleSession.Instance.battleData == null)
@@ -66,21 +65,21 @@ public class BattleManager : MonoBehaviour
         if (state != BattleState.PLAYERTURN)
             return;
 
-        battleUI.EnableButtons(true);
+        battleUI.EnableButtons(false);
         StartCoroutine(PlayerAttack());
     }
     public void OnDefenseButton()
     {
         if (state != BattleState.PLAYERTURN)
             return;
-        battleUI.EnableButtons(true);
+        battleUI.EnableButtons(false);
         StartCoroutine(PlayerDefense());
     }
     public void OnRunButton()
     {
         if (state != BattleState.PLAYERTURN)
             return;
-        battleUI.EnableButtons(true);
+        battleUI.EnableButtons(false);
         bool canRun = player.Run();
         if (canRun)
         {
@@ -163,7 +162,8 @@ public class BattleManager : MonoBehaviour
             battleLogger.Show("VICTORY");
 
             Debug.Log("Victory");
-            SceneLoader.Instance.Load("GameScene");
+            // SceneLoader.Instance.Load("GameScene");
+            battleUI.ShowVictory();
         }
 
         if (state == BattleState.LOSE)
@@ -172,8 +172,15 @@ public class BattleManager : MonoBehaviour
             battleLogger.Show("DEFEAT- skill issue");
 
             Debug.Log("Defeat");
-            SceneLoader.Instance.Load("GameScene");
-
+            // SceneLoader.Instance.Load("GameScene");
+            battleUI.ShowDefeat();
         }
+    }
+    public void ContinueToWorld(BattleResult battleResult)
+    {
+        // BattleSession.Instance.EndEncounter(battleResult);
+        Debug.Log($"ContinueToWorld: {battleResult}");
+        BattleSession.Instance.EndEncounter(battleResult);
+        // SceneLoader.Instance.StartCoroutine(SceneLoader.Instance.UnloadBattle());
     }
 }

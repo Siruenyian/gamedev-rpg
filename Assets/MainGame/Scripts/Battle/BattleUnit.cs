@@ -70,15 +70,6 @@ public class BattleUnit : MonoBehaviour
         return currentHP <= 0;
     }
 
-    private IEnumerator Flash(Color color)
-    {
-        sprite.color = color;
-
-        yield return new WaitForSeconds(0.1f);
-
-        sprite.color = originalColor;
-    }
-
     public IEnumerator DamageEffect(Color color, float shakeAmount = 0.08f, float duration = 0.2f)
     {
         Vector3 originalPos = transform.localPosition;

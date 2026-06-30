@@ -35,7 +35,10 @@ public class DialogueUI : MonoBehaviour
         CloseDialogue();
         panelBG.SetActive(false);
     }
-
+    public void showDialogueWrapper(DialogueData dialogueobj)
+    {
+        showDialogue(dialogueobj, null, null);
+    }
     public void showDialogue(DialogueData dialogueobj, Sprite sprite, Sprite sprite1)
     {
         for (int i = 0; i < toggleButtons.Length; i++)

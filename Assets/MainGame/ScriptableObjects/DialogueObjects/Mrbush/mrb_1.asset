@@ -15,8 +15,12 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - You got me! I do have the room key
-  - Now take it, dont talk to me again!
+  - 'Take it...
+
+'
+  - 'The Stockade key... carry it as far away from the circle
+
+    Finish it...'
   responses:
   - responsetext: Take Key
     dialogueData: {fileID: 0}

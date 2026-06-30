@@ -10,10 +10,31 @@ public class BattleUI : MonoBehaviour
     public Button attackButton;
     public Button defenseButton;
     public Button runButton;
+    public Button victorycontinueButton;
+    public Button defeatcontinueButton;
 
     BattleManager battleManager;
     [SerializeField] BattleLog BattleLogger;
+    [SerializeField] private GameObject victoryCanvas;
+    [SerializeField] private GameObject defeatCanvas;
 
+    public void ShowVictory()
+    {
+        defeatCanvas.SetActive(false);
+        victoryCanvas.SetActive(true);
+    }
+
+    public void ShowDefeat()
+    {
+        victoryCanvas.SetActive(false);
+        defeatCanvas.SetActive(true);
+    }
+
+    public void HideEndScreens()
+    {
+        victoryCanvas.SetActive(false);
+        defeatCanvas.SetActive(false);
+    }
 
     public void Initialize(BattleManager manager)
     {
@@ -21,9 +42,12 @@ public class BattleUI : MonoBehaviour
         attackButton.onClick.AddListener(battleManager.OnAttackButton);
         defenseButton.onClick.AddListener(battleManager.OnDefenseButton);
         runButton.onClick.AddListener(battleManager.OnRunButton);
+        victorycontinueButton.onClick.AddListener(() => battleManager.ContinueToWorld(BattleResult.Win));
+        defeatcontinueButton.onClick.AddListener(() => battleManager.ContinueToWorld(BattleResult.Lose));
+
+        HideEndScreens();
+
     }
-
-
 
     public void SetTurnText(string text)
     {

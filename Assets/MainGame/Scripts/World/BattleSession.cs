@@ -18,6 +18,7 @@ public class BattleSession : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        lastResult = BattleResult.None;
     }
 
     public bool StartEncounter(BattleData battleData)
@@ -27,11 +28,14 @@ public class BattleSession : MonoBehaviour
             return false;
         }
         this.battleData = battleData;
+        lastResult = BattleResult.None;
         return true;
     }
 
-    public void EndEncounter()
+    public BattleResult lastResult { get; private set; }
+    public void EndEncounter(BattleResult result)
     {
+        lastResult = result;
         this.battleData = null;
     }
 }

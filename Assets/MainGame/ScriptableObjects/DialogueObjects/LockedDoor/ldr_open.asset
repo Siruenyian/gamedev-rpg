@@ -15,11 +15,11 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - It's open!
+  - It's unlocked.
   responses:
   - responsetext: Enter the door
     dialogueData: {fileID: 0}
-  - responsetext: Nah I wanna chill
+  - responsetext: No thank you
     dialogueData: {fileID: 0}
   isEnd: 0
   isLeft: 0

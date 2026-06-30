@@ -15,10 +15,8 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - Hello there
-  - I am a knight
-  - I came down here on a van distributing free meals!
-  - Do you wish to battle me now?
+  - Dont tand in my way!
+  - FMPFMPHDP!!
   responses:
   - responsetext: Yes
     dialogueData: {fileID: 0}

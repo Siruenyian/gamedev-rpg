@@ -16,10 +16,9 @@ MonoBehaviour:
   Dialoguepicright: {fileID: 0}
   dialogue:
   - The door.. is still lcoked
-  - maybe that weird tree has some answers..
-  - 'lets question him again and again
+  - '...
 
-    hehe..'
+    Maybe I should speak to that knight again.'
   responses: []
   isEnd: 0
   isLeft: 0

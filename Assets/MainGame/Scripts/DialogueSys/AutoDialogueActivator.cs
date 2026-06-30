@@ -25,7 +25,7 @@ public class AutoDialogueActivator : MonoBehaviour
         {
             return;
         }
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerMovementScript player))
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
         {
             hasTriggered = true;
             Debug.Log("collided!!");
@@ -41,7 +41,7 @@ public class AutoDialogueActivator : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerMovementScript player))
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
         {
             return;
         }

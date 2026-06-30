@@ -8,7 +8,7 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
 {
     [SerializeField] private DialogueData dialogueData;
     [SerializeField] private UnityEvent onDialogueStarted;
-    private PlayerMovementScript player;
+    private PlayerController player;
     private DialogueData defaultDialogue;
 
     private DialogueData runtimeDialogue;
@@ -45,7 +45,7 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerMovementScript player))
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
         {
             Debug.Log("collided!!");
             player.Interactable = this;
@@ -55,7 +55,7 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerMovementScript player))
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
         {
             if (player.Interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
             {
@@ -67,7 +67,7 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     }
 
     //function bdy dari interface
-    // public void Interact(PlayerMovementScript player)
+    // public void Interact(PlayerController player)
     // {
     //     //Debug.Log("Interacted"+dialogueData);
     //     onDialogueStarted?.Invoke();
@@ -80,14 +80,14 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     //     player.DialogueUI.showDialogue(dialogueData, dialogueData.Dialoguepicleft, dialogueData.Dialoguepicright);
     // }
 
-    public void Interact(PlayerMovementScript player)
+    public void Interact(PlayerController player)
     {
         onDialogueStarted?.Invoke();
         AddDialogueResponseEvents(player);
         player.DialogueUI.showDialogue(runtimeDialogue, runtimeDialogue.Dialoguepicleft, runtimeDialogue.Dialoguepicright);
     }
 
-    private void AddDialogueResponseEvents(PlayerMovementScript player)
+    private void AddDialogueResponseEvents(PlayerController player)
     {
 
 

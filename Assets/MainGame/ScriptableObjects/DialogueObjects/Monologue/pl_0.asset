@@ -15,10 +15,13 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 21300000, guid: 1fae7225d913313499a4c44853f35a23, type: 3}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - Ugghh.. where am i
-  - I was with sier and leva moments ago
-  - did I get teleported?
-  - Either way.. I must find them
+  - '...
+
+'
+  - w..what happened
+  - I was with leva moments ago and then a flash of light
+  - This magic circle... I was teleported?!
+  - this is bad.. I have to find my way back.
   responses: []
   isEnd: 0
   isLeft: 0

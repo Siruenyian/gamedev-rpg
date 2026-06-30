@@ -15,7 +15,9 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - It seems that this door is locked...
+  - 'It''s locked.
+
+    The lock looks ancient.'
   - I can use some of my things
   responses:
   - responsetext: Try to open

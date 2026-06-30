@@ -15,9 +15,15 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - Hello there, as you can see I am a talking tree
-  - My name is Mr. Bush
-  - Carry on..
+  - '...
+
+'
+  - 'No...
+
+'
+  - 'I won''t let it through...
+
+    Not while I''m still here'
   responses: []
   isEnd: 0
   isLeft: 0

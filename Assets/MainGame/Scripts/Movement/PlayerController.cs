@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerMovementScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator animator;
@@ -26,36 +27,64 @@ public class PlayerMovementScript : MonoBehaviour
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        InputManager.Instance.Input.Gameplay.Interact.performed += OnInteract;
     }
+
+    private void OnDestroy()
+    {
+        if (InputManager.Instance != null)
+            InputManager.Instance.Input.Gameplay.Interact.performed -= OnInteract;
+    }
+    private bool dialogueFrozen;
+    private bool cutsceneFrozen;
 
     void Update()
     {
-        if (dialogueUI.isOpen)
+        bool isFrozen = dialogueFrozen || cutsceneFrozen;
+
+        if (!isFrozen)
         {
-            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            ReadMovementInput();
         }
         else
         {
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        }
-        // dev note: change to space
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (Interactable != null && !dialogueUI.isOpen)
-            {
-                Interactable.Interact(this);
-            }
+            inputDirection = Vector2.zero;
         }
 
-        ReadMovementInput();
         UpdateAnimation();
     }
 
+    public void FreezeForDialogue()
+    {
+        dialogueFrozen = true;
+    }
+
+    public void UnfreezeForDialogue()
+    {
+        dialogueFrozen = false;
+    }
+
+    public void FreezeForCutscene()
+    {
+        cutsceneFrozen = true;
+    }
+
+    public void UnfreezeForCutscene()
+    {
+        cutsceneFrozen = false;
+    }
     void FixedUpdate()
     {
         Move();
     }
 
+    private void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (Interactable != null && !dialogueUI.isOpen)
+        {
+            Interactable.Interact(this);
+        }
+    }
     private void ReadMovementInput()
     {
         if (dialogueUI.isOpen)
@@ -63,10 +92,13 @@ public class PlayerMovementScript : MonoBehaviour
             inputDirection = Vector2.zero;
             return;
         }
+        Vector2 moveInput = InputManager.Instance.Input.Gameplay.Move.ReadValue<Vector2>();
+        // Debug.Log($"Moveinputu {moveInput}");
+        // float horizontal = Input.GetAxisRaw("Horizontal");
+        // float vertical = Input.GetAxisRaw("Vertical");
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
+        float horizontal = moveInput.x;
+        float vertical = moveInput.y;
         // lock to 4 directions
         if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
         {
@@ -93,9 +125,13 @@ public class PlayerMovementScript : MonoBehaviour
         bool isMoving = inputDirection != Vector2.zero;
 
         animator.SetBool("IsMoving", isMoving);
-
-        animator.SetFloat("MoveX", inputDirection.x, 0.1f, Time.deltaTime);
-        animator.SetFloat("MoveY", inputDirection.y, 0.1f, Time.deltaTime);
+        if (inputDirection != Vector2.zero)
+        {
+            animator.SetFloat("MoveX", inputDirection.x);
+            animator.SetFloat("MoveY", inputDirection.y);
+        }
+        // animator.SetFloat("MoveX", inputDirection.x, 0.02f, Time.deltaTime);
+        // animator.SetFloat("MoveY", inputDirection.y, 0.02f, Time.deltaTime);
 
         animator.SetFloat("Speed", inputDirection.sqrMagnitude);
 
