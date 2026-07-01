@@ -6,7 +6,6 @@ public class Teleporter : MonoBehaviour
 
     public void TeleportTo(GameObject target)
     {
-        Debug.Log("husaaa");
         if (destination == null)
         {
             Debug.LogWarning("Teleport destination is not assigned.");

@@ -15,9 +15,10 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - It worked! the dorr is unlocked
+  - A clack echoes throughout the room..
+  - The door is unlocked.
   responses: []
-  isEnd: 0
+  isEnd: 1
   isLeft: 0
   isRight: 0
   dialogueData: {fileID: 0}

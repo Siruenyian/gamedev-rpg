@@ -14,7 +14,6 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private GameObject npcArtboxleft;
     [SerializeField] private GameObject npcArtboxright;
     [SerializeField] private GameObject panelBG;
-    [SerializeField] private PlayerController player;
 
     /*[SerializeField] private ActionLimit_Script actionLimit_Script;
     [SerializeField] private StageEnd_Script stageEnd_Script;*/
@@ -40,9 +39,9 @@ public class DialogueUI : MonoBehaviour
     }
     public void showDialogueWrapper(DialogueData dialogueobj)
     {
-        showDialogue(dialogueobj, null, null);
+        ShowDialogue(dialogueobj, null, null);
     }
-    public void showDialogue(DialogueData dialogueobj, Sprite sprite, Sprite sprite1, Action onEnd = null)
+    public void ShowDialogue(DialogueData dialogueobj, Sprite sprite, Sprite sprite1, Action onEnd = null)
     {
         if (onEnd != null)
             this.onComplete = onEnd;
@@ -51,7 +50,7 @@ public class DialogueUI : MonoBehaviour
             toggleButtons[i].interactable = false;
         }
         isOpen = true;
-        player.Lock(this);
+        // player.Lock(this);
         panelBG.SetActive(true);
         dialoguebox.SetActive(true);
         if (dialogueobj.isLeft && dialogueobj.isRight)
@@ -121,13 +120,12 @@ public class DialogueUI : MonoBehaviour
         }
         else if (dialogueobj.dialogueData)
         {
-            showDialogue(dialogueobj.dialogueData, dialogueobj.dialogueData.Dialoguepicleft, dialogueobj.dialogueData.Dialoguepicright);
+            ShowDialogue(dialogueobj.dialogueData, dialogueobj.dialogueData.Dialoguepicleft, dialogueobj.dialogueData.Dialoguepicright);
         }
         else
         {
             if (dialogueobj.isEnd)
             {
-                Debug.Log("play dead");
                 onComplete?.Invoke();
                 onComplete = null;
             }
@@ -157,7 +155,8 @@ public class DialogueUI : MonoBehaviour
     public void CloseDialogue()
     {
         isOpen = false;
-        player.Unlock(this);
+        onComplete?.Invoke();
+        onComplete = null;
         dialoguebox.SetActive(false);
         npcArtboxleft.SetActive(false);
         npcArtboxright.SetActive(false);

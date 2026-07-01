@@ -18,7 +18,7 @@ MonoBehaviour:
   - '*kicks the door*'
   - It wont budge and now my feet hurt...
   responses: []
-  isEnd: 0
+  isEnd: 1
   isLeft: 0
   isRight: 0
   dialogueData: {fileID: 0}

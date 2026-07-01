@@ -7,9 +7,9 @@ public class BattleTrigger : MonoBehaviour
     [SerializeField] private UnityEvent onVictory;
     [SerializeField] private UnityEvent onDefeat;
 
-    public void encounter()
+    public void Encounter()
     {
-        SceneLoader.Instance.LoadBattlef(battleData, OnBattleFinished);
+        SceneLoader.Instance.LoadBattleWrapper(battleData, OnBattleFinished);
     }
 
     private void OnBattleFinished(BattleResult result)

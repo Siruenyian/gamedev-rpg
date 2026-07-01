@@ -11,7 +11,6 @@ public class Responsehandler : MonoBehaviour
 
     [SerializeField] private RectTransform responseContainer;
 
-    DialogueActivator dialogueActivator;
     private DialogueUI dialogueUI;
     private List<GameObject> tempResponseButoons = new List<GameObject>();
 
@@ -21,7 +20,6 @@ public class Responsehandler : MonoBehaviour
     {
         responseButtontmp.gameObject.SetActive(false);
         dialogueUI = GetComponent<DialogueUI>();
-        dialogueActivator = GetComponent<DialogueActivator>();
     }
 
     public void AddResponseEvent(ResposeEvent[] responseEvents)
@@ -71,7 +69,7 @@ public class Responsehandler : MonoBehaviour
 
         if (response.Dialoguedata)
         {
-            dialogueUI.showDialogue(response.Dialoguedata, response.Dialoguedata.Dialoguepicleft, response.Dialoguedata.Dialoguepicright);
+            dialogueUI.ShowDialogue(response.Dialoguedata, response.Dialoguedata.Dialoguepicleft, response.Dialoguedata.Dialoguepicright);
         }
         else
         {

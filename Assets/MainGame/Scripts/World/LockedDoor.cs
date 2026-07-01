@@ -29,9 +29,6 @@ public class LockedDoor : MonoBehaviour
         {
             Open();
         }
-        else
-        {
-            Debug.Log("Door closed.");
         }
     }
 
@@ -41,7 +38,6 @@ public class LockedDoor : MonoBehaviour
         dialogueActivator.SetResponseDialogue(0, unlocksuccessDoorDialogue);
         dialogueActivator.SetNewDialogue(openedDoorDialogue);
         UpdateVisual();
-        Debug.Log("Door opened.");
     }
 
     private void UpdateVisual()

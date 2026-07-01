@@ -25,10 +25,6 @@ public class BattleManager : MonoBehaviour
             battleData = BattleSession.Instance.battleData;
         }
 
-        Debug.Log(battleData);
-
-        battleUI.Initialize(this);
-
         StartCoroutine(SetupBattle());
     }
 
@@ -54,9 +50,6 @@ public class BattleManager : MonoBehaviour
 
     void PlayerTurn()
     {
-        Debug.Log("Player Turn");
-
-
         battleLogger.Show("Player Turn");
 
         battleUI.EnableButtons(true);
@@ -163,8 +156,6 @@ public class BattleManager : MonoBehaviour
         {
             battleLogger.Show("VICTORY");
 
-            Debug.Log("Victory");
-            // SceneLoader.Instance.Load("GameScene");
             battleUI.ShowVictory();
         }
 
@@ -173,15 +164,14 @@ public class BattleManager : MonoBehaviour
             battleUI.SetTurnText("Defeat");
             battleLogger.Show("DEFEAT- skill issue");
 
-            Debug.Log("Defeat");
-            // SceneLoader.Instance.Load("GameScene");
             battleUI.ShowDefeat();
         }
     }
+    public void ContinueVictory() => ContinueToWorld(BattleResult.Win);
+    public void ContinueDefeat() => ContinueToWorld(BattleResult.Lose);
+
     public void ContinueToWorld(BattleResult battleResult)
     {
-        // BattleSession.Instance.EndEncounter(battleResult);
-        Debug.Log($"ContinueToWorld: {battleResult}");
         SceneLoader.Instance.PlayBattleTransition();
         BattleSession.Instance.EndEncounter(battleResult);
         // SceneLoader.Instance.StartCoroutine(SceneLoader.Instance.UnloadBattle());

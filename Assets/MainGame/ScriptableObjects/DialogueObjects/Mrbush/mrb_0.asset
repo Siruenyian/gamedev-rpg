@@ -25,7 +25,7 @@ MonoBehaviour:
 
     Not while I''m still here'
   responses: []
-  isEnd: 0
+  isEnd: 1
   isLeft: 0
   isRight: 0
   dialogueData: {fileID: 0}

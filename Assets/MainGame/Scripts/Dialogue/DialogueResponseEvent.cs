@@ -8,16 +8,9 @@ public class DialogueResponseEvent : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private DialogueData dialogueData;
     [SerializeField] private ResposeEvent[] events;
-    DialogueActivator dialogueActivator;
     public DialogueData DialogueData => dialogueData;
 
     public ResposeEvent[] Events => events;
-
-    private void Start()
-    {
-        dialogueActivator = this.GetComponent<DialogueActivator>();
-        //dialogueData = dialogueActivator.nPC.npcDialogue;
-    }
 
     public void OnValidate()
     {

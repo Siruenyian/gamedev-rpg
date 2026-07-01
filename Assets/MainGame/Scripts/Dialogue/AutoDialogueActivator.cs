@@ -14,10 +14,7 @@ public class AutoDialogueActivator : MonoBehaviour
 
     private void Start()
     {
-
         dialogueData = startingDialogue;
-        Debug.Log(dialogueData);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,17 +23,17 @@ public class AutoDialogueActivator : MonoBehaviour
         {
             return;
         }
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController _))
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
         {
             hasTriggered = true;
-            Debug.Log("collided!!");
 
             if (TryGetComponent(out DialogueResponseEvent responseEvent) && responseEvent.DialogueData == dialogueData)
             {
                 dialogueUI.AddResponseEvents(responseEvent.Events);
             }
 
-            dialogueUI.showDialogue(dialogueData, dialogueData.Dialoguepicleft, dialogueData.Dialoguepicright);
+            player.Lock(this);
+            dialogueUI.ShowDialogue(dialogueData, dialogueData.Dialoguepicleft, dialogueData.Dialoguepicright, () => player.Unlock(this));
         }
     }
 

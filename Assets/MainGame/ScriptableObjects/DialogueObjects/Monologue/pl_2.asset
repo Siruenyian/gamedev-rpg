@@ -22,7 +22,7 @@ MonoBehaviour:
 
     Can you tell me where I am?'
   responses: []
-  isEnd: 0
+  isEnd: 1
   isLeft: 0
   isRight: 0
   dialogueData: {fileID: 0}

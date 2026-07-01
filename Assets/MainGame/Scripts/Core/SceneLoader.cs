@@ -40,7 +40,7 @@ public class SceneLoader : MonoBehaviour
     }
 
 
-    public void LoadBattlef(BattleData battleData, Action<BattleResult> onFinished)
+    public void LoadBattleWrapper(BattleData battleData, Action<BattleResult> onFinished)
     {
         StartCoroutine(LoadBattle(battleData, onFinished));
     }
@@ -62,9 +62,6 @@ public class SceneLoader : MonoBehaviour
         {
             return BattleSession.Instance.lastResult != BattleResult.None;
         });
-
-        Debug.Log("Battle finished!");
-
 
         yield return SceneManager.UnloadSceneAsync("BattleScene");
         onFinished?.Invoke(BattleSession.Instance.lastResult);

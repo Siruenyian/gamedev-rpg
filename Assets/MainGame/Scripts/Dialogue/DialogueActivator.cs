@@ -17,14 +17,6 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     {
         runtimeDialogue = Instantiate(dialogueData);
         defaultDialogue = Instantiate(dialogueData);
-        var events = GetComponents<DialogueResponseEvent>();
-
-        Debug.Log($"Found {events.Length} DialogueResponseEvents");
-
-        foreach (var e in events)
-        {
-            Debug.Log(e.name + " -> " + e.DialogueData.name);
-        }
     }
     public void SetNewDialogue(DialogueData newdialogue)
     {
@@ -48,7 +40,6 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     {
         if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
         {
-            Debug.Log("collided!!");
             player.Interactable = this;
         }
     }
@@ -83,7 +74,12 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     {
         onDialogueStarted?.Invoke();
         AddDialogueResponseEvents();
-        dialogueUI.showDialogue(runtimeDialogue, runtimeDialogue.Dialoguepicleft, runtimeDialogue.Dialoguepicright, () => onDialogueEnd?.Invoke());
+        player.Lock(this);
+        dialogueUI.ShowDialogue(runtimeDialogue, runtimeDialogue.Dialoguepicleft, runtimeDialogue.Dialoguepicright, () =>
+        {
+            player.Unlock(this);
+            onDialogueEnd?.Invoke();
+        });
     }
 
     private void AddDialogueResponseEvents()
@@ -92,12 +88,8 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
 
         foreach (var responseEvent in GetComponents<DialogueResponseEvent>())
         {
-            Debug.Log(responseEvent);
-
-            Debug.Log(responseEvent.DialogueData.Dialogue[0] == runtimeDialogue.Dialogue[0]);
             if (responseEvent.DialogueData.Dialogue[0] == runtimeDialogue.Dialogue[0])
             {
-                Debug.Log(responseEvent.name + " -> " + responseEvent.DialogueData.name);
                 dialogueUI.AddResponseEvents(responseEvent.Events);
                 break;
             }

@@ -15,12 +15,14 @@ MonoBehaviour:
   Dialoguepicleft: {fileID: 0}
   Dialoguepicright: {fileID: 0}
   dialogue:
-  - Dont tand in my way!
-  - FMPFMPHDP!!
+  - Formation!
+  - None shall pass...
+  - Hold the line!
+  - KILL THEM!
   responses:
-  - responsetext: Yes
+  - responsetext: Accept Battle
     dialogueData: {fileID: 0}
-  - responsetext: No
+  - responsetext: Deny battle
     dialogueData: {fileID: 0}
   isEnd: 0
   isLeft: 0
