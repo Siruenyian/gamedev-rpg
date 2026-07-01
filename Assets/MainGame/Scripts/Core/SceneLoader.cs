@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance;
+    private Scene previousScene;
+    [SerializeField] private GameObject worldRoot;
+    [SerializeField] private Animator transitionAnimator;
+    [SerializeField] private string transitionInName = "BattleIn";
+    [SerializeField] private string transitionOutName = "BattleOut";
 
     void Awake()
     {
@@ -20,6 +25,7 @@ public class SceneLoader : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        transitionAnimator.gameObject.SetActive(false);
     }
 
     public void Load(string sceneName)
@@ -33,8 +39,6 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(sceneName, mode);
     }
 
-    private Scene previousScene;
-    [SerializeField] private GameObject worldRoot;
 
     public void LoadBattlef(BattleData battleData, Action<BattleResult> onFinished)
     {
@@ -42,27 +46,26 @@ public class SceneLoader : MonoBehaviour
     }
     public IEnumerator LoadBattle(BattleData battleData, Action<BattleResult> onFinished)
     {
-        // previousScene = SceneManager.GetActiveScene();
-        // worldRoot.SetActive(false);
-        // yield return SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
+        if (transitionAnimator != null)
+            yield return PlayTransition(transitionInName, leaveActive: true);
 
-        // SceneManager.SetActiveScene(SceneManager.GetSceneByName("BattleScene"));
         BattleSession.Instance.StartEncounter(battleData);
 
         previousScene = SceneManager.GetActiveScene();
-        worldRoot.SetActive(false);
 
         yield return SceneManager.LoadSceneAsync("BattleScene", LoadSceneMode.Additive);
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("BattleScene"));
-
+        worldRoot.SetActive(false);
+        transitionAnimator.gameObject.SetActive(false);
         yield return new WaitUntil(() =>
         {
-            Debug.Log($"Waiting... {BattleSession.Instance.lastResult}");
             return BattleSession.Instance.lastResult != BattleResult.None;
         });
 
         Debug.Log("Battle finished!");
+
+
         yield return SceneManager.UnloadSceneAsync("BattleScene");
         onFinished?.Invoke(BattleSession.Instance.lastResult);
         if (previousScene.IsValid())
@@ -71,7 +74,22 @@ public class SceneLoader : MonoBehaviour
         }
 
         worldRoot.SetActive(true);
+    }
 
+    public void PlayBattleTransition()
+    {
+        StartCoroutine(PlayTransition(transitionOutName));
+    }
+    private IEnumerator PlayTransition(string clipname, bool leaveActive = false)
+    {
+        transitionAnimator.gameObject.SetActive(true);
+        transitionAnimator.Play(clipname);
+        yield return null;
+        yield return new WaitUntil(() =>
+            !transitionAnimator.IsInTransition(0) &&
+            transitionAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+        if (!leaveActive)
+            transitionAnimator.gameObject.SetActive(false);
     }
 
     public IEnumerator UnloadBattle()
@@ -82,60 +100,6 @@ public class SceneLoader : MonoBehaviour
             SceneManager.SetActiveScene(previousScene);
         }
         worldRoot.SetActive(true);
-        // Camera[] cameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
-        // foreach (var camera in cameras)
-        // {
-        //     if (camera.CompareTag("MainCamera"))
-        //     {
-        //         camera.gameObject.SetActive(false);
-        //     }
-        // }
-    }
-
-    private void CleanupScene()
-    {
-        Camera[] cameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
-        foreach (var camera in cameras)
-        {
-            if (!camera.CompareTag("BattleCamera"))
-            {
-                camera.gameObject.SetActive(false);
-            }
-        }
-
-        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
-
-        bool foundOne = false;
-
-        foreach (var es in eventSystems)
-        {
-            if (!foundOne)
-            {
-                foundOne = true;
-                es.gameObject.SetActive(true);
-            }
-            else
-            {
-                Destroy(es.gameObject);
-            }
-        }
-
-        AudioListener[] listeners = FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
-
-        bool foundListener = false;
-
-        foreach (var listener in listeners)
-        {
-            if (!foundListener)
-            {
-                foundListener = true;
-                listener.enabled = true;
-            }
-            else
-            {
-                listener.enabled = false;
-            }
-        }
     }
 
     public void Unload(string sceneName)

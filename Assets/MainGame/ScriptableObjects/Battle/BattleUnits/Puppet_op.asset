@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a83250ee7ede664193026b9c0eddb65, type: 3}
-  m_Name: Rogue
+  m_Name: Puppet_op
   m_EditorClassIdentifier: 
-  characterName: Rogue
-  animatorController: {fileID: 9100000, guid: d4fd7881a50bf724c93dc28528bb0340, type: 2}
-  sprite: {fileID: 1546044270, guid: 21b816e3929e18c4592d394b36257f86, type: 3}
-  maxHP: 10
-  maxMana: 0
-  attack: 2
-  magic: 0
-  defense: 1
-  speed: 5
+  characterName: TestMe
+  animatorController: {fileID: 9100000, guid: d5953833e9514954d9b407986f22ab11, type: 2}
+  sprite: {fileID: -1221926052, guid: 62ab17917359db64fa646b694c3f48ca, type: 3}
+  maxHP: 1
+  maxMana: 999
+  attack: 999
+  magic: 999
+  defense: 999
+  speed: 999

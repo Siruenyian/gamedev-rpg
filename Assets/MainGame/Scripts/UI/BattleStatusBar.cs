@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class HPBar : MonoBehaviour
+public class BattleStatusBar : MonoBehaviour
 {
     [SerializeField] private Image fill;
     [SerializeField] private TMP_Text hpText;

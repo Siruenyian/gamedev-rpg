@@ -16,7 +16,7 @@ public class BattleUnit : MonoBehaviour
     private int currentHP;
     public int CurrentHP => currentHP;
 
-    [SerializeField] private HPBar healthBar;
+    [SerializeField] private BattleStatusBar healthBar;
     private int defense;
     private int originalDefense;
     void Awake()

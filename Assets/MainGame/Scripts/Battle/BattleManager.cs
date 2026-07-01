@@ -182,6 +182,7 @@ public class BattleManager : MonoBehaviour
     {
         // BattleSession.Instance.EndEncounter(battleResult);
         Debug.Log($"ContinueToWorld: {battleResult}");
+        SceneLoader.Instance.PlayBattleTransition();
         BattleSession.Instance.EndEncounter(battleResult);
         // SceneLoader.Instance.StartCoroutine(SceneLoader.Instance.UnloadBattle());
     }
