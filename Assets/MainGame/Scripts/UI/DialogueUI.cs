@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private GameObject npcArtboxleft;
     [SerializeField] private GameObject npcArtboxright;
     [SerializeField] private GameObject panelBG;
+    [SerializeField] private PlayerController player;
 
     /*[SerializeField] private ActionLimit_Script actionLimit_Script;
     [SerializeField] private StageEnd_Script stageEnd_Script;*/
@@ -27,6 +29,7 @@ public class DialogueUI : MonoBehaviour
 
     private TypeEff typeEff;
     private Responsehandler responseHandler;
+    private Action onComplete;
 
     private void Start()
     {
@@ -39,13 +42,16 @@ public class DialogueUI : MonoBehaviour
     {
         showDialogue(dialogueobj, null, null);
     }
-    public void showDialogue(DialogueData dialogueobj, Sprite sprite, Sprite sprite1)
+    public void showDialogue(DialogueData dialogueobj, Sprite sprite, Sprite sprite1, Action onEnd = null)
     {
+        if (onEnd != null)
+            this.onComplete = onEnd;
         for (int i = 0; i < toggleButtons.Length; i++)
         {
             toggleButtons[i].interactable = false;
         }
         isOpen = true;
+        player.Lock(this);
         panelBG.SetActive(true);
         dialoguebox.SetActive(true);
         if (dialogueobj.isLeft && dialogueobj.isRight)
@@ -122,8 +128,8 @@ public class DialogueUI : MonoBehaviour
             if (dialogueobj.isEnd)
             {
                 Debug.Log("play dead");
-                //stageEnd_Script.EndDay();
-                //play dead
+                onComplete?.Invoke();
+                onComplete = null;
             }
             CloseDialogue();
         }
@@ -151,6 +157,7 @@ public class DialogueUI : MonoBehaviour
     public void CloseDialogue()
     {
         isOpen = false;
+        player.Unlock(this);
         dialoguebox.SetActive(false);
         npcArtboxleft.SetActive(false);
         npcArtboxright.SetActive(false);

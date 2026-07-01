@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
 
 
 
-    [Header("Dialogues")]
-    [SerializeField] private DialogueUI dialogueUI;
-    public DialogueUI DialogueUI => dialogueUI;
+    // [Header("Dialogues")]
+    // [SerializeField] private DialogueUI dialogueUI;
+    // public DialogueUI DialogueUI => dialogueUI;
     public Iinteractable Interactable { get; set; }
 
     void Start()
@@ -35,14 +35,12 @@ public class PlayerController : MonoBehaviour
         if (InputManager.Instance != null)
             InputManager.Instance.Input.Gameplay.Interact.performed -= OnInteract;
     }
-    private bool dialogueFrozen;
-    private bool cutsceneFrozen;
+    private readonly HashSet<object> locks = new HashSet<object>();
+    public bool IsLocked => locks.Count > 0;
 
     void Update()
     {
-        bool isFrozen = dialogueFrozen || cutsceneFrozen;
-
-        if (!isFrozen)
+        if (!IsLocked)
         {
             ReadMovementInput();
         }
@@ -54,24 +52,24 @@ public class PlayerController : MonoBehaviour
         UpdateAnimation();
     }
 
-    public void FreezeForDialogue()
+    public void Lock(object owner)
     {
-        dialogueFrozen = true;
+        locks.Add(owner);
     }
 
-    public void UnfreezeForDialogue()
+    public void Unlock(object owner)
     {
-        dialogueFrozen = false;
+        locks.Remove(owner);
     }
 
     public void FreezeForCutscene()
     {
-        cutsceneFrozen = true;
+        Lock(this);
     }
 
     public void UnfreezeForCutscene()
     {
-        cutsceneFrozen = false;
+        Unlock(this);
     }
     void FixedUpdate()
     {
@@ -80,18 +78,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx)
     {
-        if (Interactable != null && !dialogueUI.isOpen)
+        if (Interactable != null && !IsLocked)
         {
             Interactable.Interact(this);
         }
     }
     private void ReadMovementInput()
     {
-        if (dialogueUI.isOpen)
-        {
-            inputDirection = Vector2.zero;
-            return;
-        }
         Vector2 moveInput = InputManager.Instance.Input.Gameplay.Move.ReadValue<Vector2>();
         // Debug.Log($"Moveinputu {moveInput}");
         // float horizontal = Input.GetAxisRaw("Horizontal");

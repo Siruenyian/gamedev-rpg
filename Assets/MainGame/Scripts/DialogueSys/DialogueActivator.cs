@@ -7,8 +7,9 @@ using UnityEngine.Events;
 public class DialogueActivator : MonoBehaviour, Iinteractable
 {
     [SerializeField] private DialogueData dialogueData;
+    [SerializeField] private DialogueUI dialogueUI;
     [SerializeField] private UnityEvent onDialogueStarted;
-    private PlayerController player;
+    [SerializeField] private UnityEvent onDialogueEnd;
     private DialogueData defaultDialogue;
 
     private DialogueData runtimeDialogue;
@@ -28,7 +29,7 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     public void SetNewDialogue(DialogueData newdialogue)
     {
         runtimeDialogue = newdialogue;
-        AddDialogueResponseEvents(player);
+        AddDialogueResponseEvents();
     }
     public void ResetDialogue()
     {
@@ -40,7 +41,7 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
             return;
 
         runtimeDialogue.Responses[index].SetDialogue(nextDialogue);
-        AddDialogueResponseEvents(player);
+        AddDialogueResponseEvents();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -49,7 +50,6 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
         {
             Debug.Log("collided!!");
             player.Interactable = this;
-            this.player = player;
         }
     }
 
@@ -60,7 +60,6 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
             if (player.Interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
             {
                 player.Interactable = null;
-                this.player = null;
             }
 
         }
@@ -83,11 +82,11 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
     public void Interact(PlayerController player)
     {
         onDialogueStarted?.Invoke();
-        AddDialogueResponseEvents(player);
-        player.DialogueUI.showDialogue(runtimeDialogue, runtimeDialogue.Dialoguepicleft, runtimeDialogue.Dialoguepicright);
+        AddDialogueResponseEvents();
+        dialogueUI.showDialogue(runtimeDialogue, runtimeDialogue.Dialoguepicleft, runtimeDialogue.Dialoguepicright, () => onDialogueEnd?.Invoke());
     }
 
-    private void AddDialogueResponseEvents(PlayerController player)
+    private void AddDialogueResponseEvents()
     {
 
 
@@ -99,13 +98,13 @@ public class DialogueActivator : MonoBehaviour, Iinteractable
             if (responseEvent.DialogueData.Dialogue[0] == runtimeDialogue.Dialogue[0])
             {
                 Debug.Log(responseEvent.name + " -> " + responseEvent.DialogueData.name);
-                player.DialogueUI.AddResponseEvents(responseEvent.Events);
+                dialogueUI.AddResponseEvents(responseEvent.Events);
                 break;
             }
             // if (responseEvent.DialogueData.Dialogue[0] != runtimeDialogue.Dialogue[0])
             //     continue;
 
-            // player.DialogueUI.AddResponseEvents(responseEvent.Events);
+            // dialogueUI.AddResponseEvents(responseEvent.Events);
             // break;
         }
     }

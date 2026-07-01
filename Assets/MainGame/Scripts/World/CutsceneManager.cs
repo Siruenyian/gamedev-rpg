@@ -9,13 +9,13 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private PlayerController player;
     public void Play(PlayableDirector director)
     {
-        player.FreezeForCutscene();
+        player.Lock(this);
         director.stopped += OnStopped;
         director.Play();
     }
     private void OnStopped(PlayableDirector director)
     {
-        player.UnfreezeForCutscene();
+        player.Unlock(this);
         // director.stopped -= OnStopped;
     }
 }

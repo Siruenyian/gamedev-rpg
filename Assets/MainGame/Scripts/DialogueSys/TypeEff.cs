@@ -4,7 +4,12 @@ using UnityEngine;
 using TMPro;
 public class TypeEff : MonoBehaviour
 {
-    [SerializeField]private float typespeed=50f;
+    [SerializeField] private float typespeed = 50f;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip typeClip;
+    [SerializeField] private float soundInterval = 0.08f;
+    private float lastSoundTime;
+
     public bool isRunning { get; private set; }
 
 
@@ -12,16 +17,16 @@ public class TypeEff : MonoBehaviour
     {
         new Punctuation(new HashSet<char>(){'.','!','?' }, 0.6f),
         new Punctuation(new HashSet<char>(){',',':',';' }, 0.3f )
-       
+
 
     };
 
     private Coroutine typingCoroutine;
     //driver func
-   public void Run(string texttotype, TMP_Text textlabel)
-   {
-        typingCoroutine= StartCoroutine(routine:TypeText(texttotype, textlabel));
-   }
+    public void Run(string texttotype, TMP_Text textlabel)
+    {
+        typingCoroutine = StartCoroutine(routine: TypeText(texttotype, textlabel));
+    }
 
     public void stop()
     {
@@ -30,7 +35,7 @@ public class TypeEff : MonoBehaviour
             StopCoroutine(typingCoroutine);
             isRunning = false;
         }
-        
+
     }
 
 
@@ -41,27 +46,31 @@ public class TypeEff : MonoBehaviour
 
         float t = 0;
         int charIndex = 0;
-        while (charIndex<texttotype.Length)
+        while (charIndex < texttotype.Length)
         {
             int lastCharIndex = charIndex;
-            
 
-            t += Time.deltaTime*typespeed;
+
+            t += Time.deltaTime * typespeed;
             charIndex = Mathf.FloorToInt(t);
             charIndex = Mathf.Clamp(charIndex, 0, texttotype.Length);
             //typing in the text
-            
+
 
             for (int i = lastCharIndex; i < charIndex; i++)
             {
                 bool islast = i >= texttotype.Length - 1;
-                
-                textlabel.text = texttotype.Substring(0, i+1);
-                //PlayerAudio.PlaySound("type");
+
+                textlabel.text = texttotype.Substring(0, i + 1);
                 yield return new WaitForSeconds(0.05f);
-                if (IsPunctuation(texttotype[i], out float waitTime)&&!islast&& !IsPunctuation(texttotype[i+1],out _))
+                if (typeClip != null && Time.time - lastSoundTime >= soundInterval)
                 {
-                    
+                    audioSource.PlayOneShot(typeClip);
+                    lastSoundTime = Time.time;
+                }
+                if (IsPunctuation(texttotype[i], out float waitTime) && !islast && !IsPunctuation(texttotype[i + 1], out _))
+                {
+
                     yield return new WaitForSeconds(waitTime);
                 }
             }
@@ -69,8 +78,8 @@ public class TypeEff : MonoBehaviour
             yield return null;
         }
         isRunning = false;
-        
-        
+
+
     }
     private bool IsPunctuation(char character, out float waitTime)
     {

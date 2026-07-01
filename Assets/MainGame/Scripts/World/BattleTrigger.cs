@@ -1,27 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class BattleTrigger : MonoBehaviour
 {
     [SerializeField] private BattleData battleData;
+    [SerializeField] private UnityEvent onVictory;
+    [SerializeField] private UnityEvent onDefeat;
 
-    // public void encounter()
-    // {
-    //     if (BattleSession.Instance.StartEncounter(battleData))
-    //     {
-    //         // SceneLoader.Instance.Load("BattleScene");
-    //         SceneLoader.Instance.StartCoroutine(SceneLoader.Instance.LoadBattle());
-    //         return;
-    //     }
-    //     Debug.Log("Unable to load battle!");
-    // }
     public void encounter()
     {
         SceneLoader.Instance.LoadBattlef(battleData, OnBattleFinished);
     }
-
 
     private void OnBattleFinished(BattleResult result)
     {
@@ -30,15 +19,15 @@ public class BattleTrigger : MonoBehaviour
         else
             HandleDefeat();
     }
+
     private void HandleVictory()
     {
-        // Destroy enemy
-        // Unlock door
-        Destroy(this.gameObject);
+        onVictory?.Invoke();
+        // Destroy(this.gameObject);
     }
 
     private void HandleDefeat()
     {
-        // Respawn player
+        onDefeat?.Invoke();
     }
 }

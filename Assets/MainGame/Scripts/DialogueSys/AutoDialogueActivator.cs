@@ -7,6 +7,7 @@ public class AutoDialogueActivator : MonoBehaviour
 {
     public DialogueData startingDialogue;
     private DialogueData dialogueData { get; set; }
+    [SerializeField] private DialogueUI dialogueUI;
     [SerializeField]
     private bool oneShot = true;
     private bool hasTriggered;
@@ -25,17 +26,17 @@ public class AutoDialogueActivator : MonoBehaviour
         {
             return;
         }
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController player))
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out PlayerController _))
         {
             hasTriggered = true;
             Debug.Log("collided!!");
 
             if (TryGetComponent(out DialogueResponseEvent responseEvent) && responseEvent.DialogueData == dialogueData)
             {
-                player.DialogueUI.AddResponseEvents(responseEvent.Events);
+                dialogueUI.AddResponseEvents(responseEvent.Events);
             }
 
-            player.DialogueUI.showDialogue(dialogueData, dialogueData.Dialoguepicleft, dialogueData.Dialoguepicright);
+            dialogueUI.showDialogue(dialogueData, dialogueData.Dialoguepicleft, dialogueData.Dialoguepicright);
         }
     }
 

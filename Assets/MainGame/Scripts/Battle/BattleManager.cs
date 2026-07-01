@@ -34,6 +34,8 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
+        battleUI.EnableButtons(false);
+
         state = BattleState.START;
 
         player.Initialize(battleData.player);
